@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3004;
 
-import citiesDB from './data/city.list.json';
+import citiesDB from '../data/city.list.json';
 
 app.use(express.json());
 
