@@ -3,6 +3,7 @@ const app = express();
 const PORT = process.env.PORT || 3005;
 
 import citiesDB from '../data/city.list.json';
+import { removeDiacritics } from './removeDiacritics';
 
 app.use(express.json());
 
@@ -18,7 +19,9 @@ app.use((req, res, next) => {
 // Utilities
 const getCitiesByName = (name) => {
   return citiesDB.filter(
-    (city) => city.name.toUpperCase() === name.toUpperCase()
+    (city) =>
+      removeDiacritics(city.name).toUpperCase() ===
+      removeDiacritics(name).toUpperCase()
   );
 };
 
@@ -26,7 +29,8 @@ const getCityByCountryAndName = (country, name) => {
   return citiesDB.filter(
     (location) =>
       location.country.toUpperCase() === country.toUpperCase() &&
-      location.name.toUpperCase() === name.toUpperCase()
+      removeDiacritics(location.name).toUpperCase() ===
+        removeDiacritics(name).toUpperCase()
   );
 };
 
@@ -35,7 +39,8 @@ const getCityByCountryStateAndName = (country, state, name) => {
     (location) =>
       location.country.toUpperCase() === country.toUpperCase() &&
       location.state.toUpperCase() === state.toUpperCase() &&
-      location.name.toUpperCase() === name.toUpperCase()
+      removeDiacritics(location.name).toUpperCase() ===
+        removeDiacritics(name).toUpperCase()
   );
 };
 

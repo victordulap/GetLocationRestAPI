@@ -8,7 +8,6 @@
     "build-babel": "babel -d ./build ./src -s",
     "build": "npm run clean && npm run build-babel",
     "start": "npm run build && node ./build/index.js",
-
     "old-build": "babel src -d dist",
     "old-start": "npm run build && node dist",
     "old-restart": "rimraf dist && npm run start",
@@ -19,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "lodash": "^4.17.21",
     "nodemon": "^2.0.12",
     "rimraf": "^3.0.2",
     "rimraff": "0.0.1-security"
