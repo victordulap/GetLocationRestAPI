@@ -18,15 +18,24 @@ app.use((req, res, next) => {
 
 // Utilities
 const getCitiesByName = (name) => {
-  return citiesDB.filter(
-    (city) =>
-      removeDiacritics(city.name).toUpperCase() ===
-      removeDiacritics(name).toUpperCase()
-  );
+  // return citiesDB.filter(
+  //   (city) =>
+  //     removeDiacritics(city.name).toUpperCase() ===
+  //     removeDiacritics(name).toUpperCase()
+  // );
+  if (name.length > 2) {
+    return citiesDB.filter((city) =>
+      removeDiacritics(city.name)
+        .toUpperCase()
+        .startsWith(removeDiacritics(name).toUpperCase())
+    );
+  }
+
+  return [];
 };
 
 const getCityByCountryAndName = (country, name) => {
-  return citiesDB.filter(
+  return citiesDB.find(
     (location) =>
       location.country.toUpperCase() === country.toUpperCase() &&
       removeDiacritics(location.name).toUpperCase() ===
@@ -35,7 +44,7 @@ const getCityByCountryAndName = (country, name) => {
 };
 
 const getCityByCountryStateAndName = (country, state, name) => {
-  return citiesDB.filter(
+  return citiesDB.find(
     (location) =>
       location.country.toUpperCase() === country.toUpperCase() &&
       location.state.toUpperCase() === state.toUpperCase() &&
@@ -54,13 +63,13 @@ app.get('/city/:name', (req, res) => {
 app.get('/city/:country/:name', (req, res) => {
   const { name, country } = req.params;
 
-  res.status(200).send(getCityByCountryAndName(country, name)[0]);
+  res.status(200).send(getCityByCountryAndName(country, name));
 });
 
 app.get('/city/:country/:state/:name', (req, res) => {
   const { name, country, state } = req.params;
 
-  res.status(200).send(getCityByCountryStateAndName(country, state, name)[0]);
+  res.status(200).send(getCityByCountryStateAndName(country, state, name));
 });
 
 app.listen(PORT, () => console.log(`api is alive on http://localhost:${PORT}`));
