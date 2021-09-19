@@ -24,11 +24,13 @@ const getCitiesByName = (name) => {
   //     removeDiacritics(name).toUpperCase()
   // );
   if (name.length > 2) {
-    return citiesDB.filter((city) =>
-      removeDiacritics(city.name)
-        .toUpperCase()
-        .startsWith(removeDiacritics(name).toUpperCase())
-    );
+    return citiesDB
+      .filter((city) =>
+        removeDiacritics(city.name)
+          .toUpperCase()
+          .startsWith(removeDiacritics(name).toUpperCase())
+      )
+      .sort((a, b) => a.name.length - b.name.length);
   }
 
   return [];
